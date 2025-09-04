@@ -25,9 +25,30 @@ animateToggle.addEventListener('change', () => {
 const CIRCLE_LENGTH = 2 * Math.PI * 60;
 
 input.addEventListener('input', () => {
-  let value = parseInt(input.value, 10);
-  if (isNaN(value) || value === '') value = 0;  
-  value = Math.max(0, Math.min(100, value));  
+  const raw = input.value.trim();
+
+  if (raw === '') {
+    input.title = 'Введите число от 0 до 100';
+    input.classList.remove('invalid');
+    arc.style.strokeDashoffset = CIRCLE_LENGTH;
+    return;
+  }
+
+  if (!/^\d+$/.test(raw)) {
+    input.title = 'Допустимы только цифры';
+    input.classList.add('invalid');
+    return;
+  }
+
+  let value = parseInt(raw, 10);
+  if (value < 0 || value > 100) {
+    input.title = 'Число должно быть от 0 до 100';
+    input.classList.add('invalid');
+    return;
+  }
+
+  input.classList.remove('invalid');
+
   const offset = CIRCLE_LENGTH * (1 - value / 100);
   arc.style.strokeDashoffset = offset;
 });
