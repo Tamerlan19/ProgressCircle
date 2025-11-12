@@ -6,6 +6,12 @@ const knobRot = document.querySelector('.knob-rot');
 const input = document.getElementById('value-input');
 const animateToggle = document.getElementById('animate-toggle');
 
+function getValueInput() {
+  const raw = input.value.trim();
+  const correctValue = raw !== '' && !isNaN(raw);
+  const value = correctValue ? Math.min(Math.max(parseInt(raw, 10) || 0, 0), 100) : 0;
+  return { raw, correctValue, value };
+}
 
 hideToggle.addEventListener('change', () => {
   progressCircle.classList.toggle('progress__circle--hidden', hideToggle.checked);
@@ -15,9 +21,7 @@ hideToggle.addEventListener('change', () => {
 animateToggle.addEventListener('change', () => {
 
   function loop() {
-    const raw = input.value.trim();
-    const correctValue = raw !== '' && !isNaN(raw);
-    const value = Math.min(Math.max(parseInt(raw, 10) || 0, 0), 100);
+    const { correctValue, value } = getValueInput();
 
     if (!(animateToggle.checked && correctValue)) return;
 
@@ -32,8 +36,7 @@ animateToggle.addEventListener('change', () => {
     setTimeout(loop, 1100);
   }
 
-  const strokaInput = input.value.trim();
-  const correctValue = strokaInput !== '' && !isNaN(strokaInput);
+  const { correctValue } = getValueInput();
   if (animateToggle.checked && correctValue) {
     arc.style.transition = 'stroke-dashoffset 0.6s ease-in-out';
     knobRot.style.opacity = '1';
@@ -52,15 +55,14 @@ knobRot.style.opacity = '0';
 const CIRCLE_LENGTH = 2 * Math.PI * 60;
 
 function rotateKnobToValue(value) {
-const degrees = value === 0 ? 0 : 360 * (value / 100) - 18;
-
+  const degrees = value === 0 ? 0 : 360 * (value / 100) - 18;
   knobRot.style.transform = `rotate(${degrees}deg)`;
 }
 
 
 
 input.addEventListener('input', () => {
-  const raw = input.value.trim();
+  const { raw } = getValueInput();
 
   if (raw === '') {
     input.title = 'Введите число от 0 до 100';
