@@ -50,11 +50,11 @@ body {
   margin: 0;
 }
 
-.progress__circle {
+.progress__bar {
   width: 126px;
   height: 126px;
 }
-.progress__circle--hidden {
+.progress__bar--hidden {
   opacity: 0;
   transform: scale(0.9);
   pointer-events: none;
@@ -130,7 +130,7 @@ body {
   padding: 2px 8px;
 }
 
-.knob-rot {
+.spin-circle {
   transform-box: view-box;
   transform-origin: 50% 50%;
   opacity: 0;
@@ -141,16 +141,6 @@ body {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-
-
-.progress__knob {
-  pointer-events: none;
-  filter: drop-shadow(0 0 2px rgba(60, 60, 255, 0.6));
-}
-
-
-
-
 @media (orientation: landscape) {
   .wraper {
     width: 570px;

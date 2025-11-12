@@ -13,12 +13,14 @@
         <div class="progress__title">
           <p>Progress</p>
         </div>
-<div class="progress__circle">
+<div class="progress__bar">
 <svg width="126" height="126" viewBox="0 0 126 126" fill="none">
+
+  
   <defs>
     <!-- Градиент бегунка по окружности -->
     <linearGradient
-      id="knobGradient"
+      id="gradient"
       gradientUnits="userSpaceOnUse"
       x1="3"
       y1="63"
@@ -31,8 +33,8 @@
     </linearGradient>
   </defs>
 
-  <!-- Серый круг -->
-  <circle
+  <!-- Серый фон -->
+  <circle 
     cx="63"
     cy="63"
     r="60"
@@ -41,9 +43,9 @@
     fill="none"
   />
 
-  <!-- Основной прогресс -->
+  <!-- Основной круг -->
   <circle
-    class="progress__arc"
+    class="progress_circle"
     cx="63"
     cy="63"
     r="60"
@@ -56,14 +58,14 @@
     transform="rotate(-90 63 63)"
   />
 
-  <g class="knob-rot">
-
+  <g class="spin-circle">
+      <!-- Бегунок внутри основного -->
     <circle
-      class="progress__tail"
+      class="progress_animation"
       cx="63"
       cy="63"
       r="60"
-      stroke="url(#knobGradient)"
+      stroke="url(#gradient)"
       stroke-width="6"
       stroke-linecap="round"
       stroke-dasharray="18.8 358.2" 
