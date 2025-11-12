@@ -14,38 +14,59 @@
           <p>Progress</p>
         </div>
 <div class="progress__circle">
-  <svg
-    width="126"
-    height="126"
-    viewBox="0 0 126 126"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    
-    <circle
-      cx="63"
-      cy="63"
-      r="60"
-      stroke="#CFD2CF"
-      stroke-width="6"
-      fill="none"
-    />
+<svg width="126" height="126" viewBox="0 0 126 126" fill="none">
+  <defs>
+    <!-- Градиент бегунка -->
+    <linearGradient id="knobGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3937FF" />
+      <stop offset="60%" stop-color="#8C8BFF" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </linearGradient>
+  </defs>
 
-    
+  <!-- Серый круг -->
+  <circle
+    cx="63"
+    cy="63"
+    r="60"
+    stroke="#CFD2CF"
+    stroke-width="6"
+    fill="none"
+  />
+
+  <!-- Основной прогресс -->
+  <circle
+    class="progress__arc"
+    cx="63"
+    cy="63"
+    r="60"
+    stroke="#3937FF"
+    stroke-width="6"
+    fill="none"
+    stroke-dasharray="377"
+    stroke-dashoffset="377"
+    stroke-linecap="round"
+    transform="rotate(-90 63 63)"
+  />
+
+  <g class="knob-rot">
+
     <circle
-      class="progress__arc"
+      class="progress__tail"
       cx="63"
       cy="63"
       r="60"
-      stroke="#24C229"
+      stroke="#3788ff"
       stroke-width="6"
-      fill="none"
-      stroke-dasharray="377"
-      stroke-dashoffset="377"
+      stroke-linecap="round"
+      stroke-dasharray="18.8 358.2" 
       transform="rotate(-90 63 63)"
     />
-  </svg>
+  </g>
+</svg>
+
 </div>
+
 
         
     </div>

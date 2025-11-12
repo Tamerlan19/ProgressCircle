@@ -106,7 +106,7 @@ body {
 }
 
 .control__input:checked + .control__toggle {
-  background-color: #5c3bfc;
+  background-color: #3937FF;
 }
 
 .control__input:checked + .control__toggle::before {
@@ -129,6 +129,27 @@ body {
   font-size: 14px;
   padding: 2px 8px;
 }
+
+.knob-rot {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.6s ease-in-out;
+}
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+.progress__knob {
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px rgba(60, 60, 255, 0.6));
+}
+
+
+
 
 @media (orientation: landscape) {
   .wraper {
