@@ -1,3 +1,5 @@
+//Комментарии оставлены мной намеренно, это не ИИ код, надеюсь это хоть кто-то читает)
+//Отпишите пж, если проверите https://t.me/tumblr_19
 const hideToggle = document.getElementById('hide-toggle');
 const progressBar = document.querySelector('.progress__bar');
 const progressCircle = document.querySelector('.progress_circle');
