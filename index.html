@@ -2,106 +2,87 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" href="/css/style.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>Ozon</title>
   </head>
   <body>
     <div class="main">
-        <div class="wraper">
-      <div class="progress">
-        <div class="progress__title">
-          <p>Progress</p>
+      <div class="wraper">
+        <div class="progress">
+          <div class="progress__title">
+            <p>Progress</p>
+          </div>
+          <div class="progress__bar">
+            <svg width="126" height="126" viewBox="0 0 126 126" fill="none">
+              <defs>
+                <linearGradient id="gradient" gradientUnits="userSpaceOnUse" x1="3" y1="63" x2="123" y2="63">
+                  <stop offset="0%" stop-color="#2F2CFF" />
+                  <stop offset="60%" stop-color="#4F4CFF" />
+                  <stop offset="100%" stop-color="#8C8BFF" stop-opacity="0.7" />
+                </linearGradient>
+              </defs>
+
+              <circle cx="63" cy="63" r="60" stroke="#CFD2CF" stroke-width="6" fill="none" />
+
+              <!-- Основной круг -->
+              <circle
+                class="progress_circle"
+                cx="63"
+                cy="63"
+                r="60"
+                stroke="#3937FF"
+                stroke-width="6"
+                fill="none"
+                stroke-dasharray="377"
+                stroke-dashoffset="377"
+                stroke-linecap="round"
+                transform="rotate(-90 63 63)"
+              />
+
+              <g class="spin-circle">
+                <!-- Бегунок поверх основного -->
+                <circle
+                  class="progress_animation"
+                  cx="63"
+                  cy="63"
+                  r="60"
+                  stroke="url(#gradient)"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-dasharray="18.8 358.2"
+                  transform="rotate(-90 63 63)"
+                />
+              </g>
+            </svg>
+          </div>
         </div>
-<div class="progress__bar">
-<svg width="126" height="126" viewBox="0 0 126 126" fill="none">
 
-  
-  <defs>
-    <!-- Градиент бегунка по окружности -->
-    <linearGradient
-      id="gradient"
-      gradientUnits="userSpaceOnUse"
-      x1="3"
-      y1="63"
-      x2="123"
-      y2="63"
-    >
-      <stop offset="0%" stop-color="#2F2CFF" />
-      <stop offset="60%" stop-color="#4F4CFF" />
-      <stop offset="100%" stop-color="#8C8BFF" stop-opacity="0.7" />
-    </linearGradient>
-  </defs>
+        <div class="panel">
+          <div class="panel__controls">
+            <div class="control control--value">
+              <input class="control__input" type="text" id="value-input" />
+              <div class="control__subtitle">Value</div>
+            </div>
 
-  <!-- Серый фон -->
-  <circle 
-    cx="63"
-    cy="63"
-    r="60"
-    stroke="#CFD2CF"
-    stroke-width="6"
-    fill="none"
-  />
+            <div class="control">
+              <input class="control__input control__input--animate" type="checkbox" id="animate-toggle" />
+              <label for="animate-toggle" class="control__toggle"></label>
+              <div class="control__subtitle">Animate</div>
+            </div>
 
-  <!-- Основной круг -->
-  <circle
-    class="progress_circle"
-    cx="63"
-    cy="63"
-    r="60"
-    stroke="#3937FF"
-    stroke-width="6"
-    fill="none"
-    stroke-dasharray="377"
-    stroke-dashoffset="377"
-    stroke-linecap="round"
-    transform="rotate(-90 63 63)"
-  />
-
-  <g class="spin-circle">
-      <!-- Бегунок внутри основного -->
-    <circle
-      class="progress_animation"
-      cx="63"
-      cy="63"
-      r="60"
-      stroke="url(#gradient)"
-      stroke-width="6"
-      stroke-linecap="round"
-      stroke-dasharray="18.8 358.2" 
-      transform="rotate(-90 63 63)"
-    />
-  </g>
-</svg>
-
-</div>
-
-
-        
-    </div>
-    
-    <div class="panel">
-      <div class="panel__controls">
-        <div class="control control--value">
-          <input class="control__input" type="text" id="value-input" />
-          <div class="control__subtitle">Value</div>
-        </div>
-        
-        <div class="control ">
-          <input class="control__input control__input--animate" type="checkbox" id="animate-toggle" />
-          <label for="animate-toggle" class="control__toggle"></label>
-          <div class="control__subtitle">Animate</div>
-        </div>
-        
-        <div class="control control--value">
-          <input class="control__input" type="checkbox" id="hide-toggle" />
-          <label for="hide-toggle" class="control__toggle"></label>
-          <div class="control__subtitle">Hide</div>
+            <div class="control control--value">
+              <input class="control__input" type="checkbox" id="hide-toggle" />
+              <label for="hide-toggle" class="control__toggle"></label>
+              <div class="control__subtitle">Hide</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
-</body>
-<script src="scripts/main.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
 </html>

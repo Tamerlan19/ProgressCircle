@@ -1,4 +1,3 @@
-// Основные элементы управления
 const hideToggle = document.getElementById('hide-toggle');
 const progressBar = document.querySelector('.progress__bar');
 const progressCircle = document.querySelector('.progress_circle');
@@ -6,24 +5,57 @@ const spinCircle = document.querySelector('.spin-circle');
 const input = document.getElementById('value-input');
 const animateToggle = document.getElementById('animate-toggle');
 
-// Таймеры, контролирующие бесконечный цикл вращения
-let spinCircleResetTimeout = null;
-let spinCircleLoopTimeout = null;
 
-// Возвращает исходную строку, признак валидности и ограниченное значение 0..100
+let spinCircleResetTimeout = null;//таймеры
+let spinCircleLoopTimeout = null;//таймеры
+
+// забирает и валидирует значение из инпута
 function getValueInput() {
   const raw = input.value.trim();
-  const correctValue = raw !== '' && !isNaN(raw);
-  const value = correctValue ? Math.min(Math.max(parseInt(raw, 10) || 0, 0), 100) : 0;
-  return { raw, correctValue, value };
+
+  if (raw === '') {
+    return {
+      raw,
+      value: null,
+      isValid: false,
+      error: 'Введите число от 0 до 100',
+      reason: 'empty'
+    };
+  }
+
+  if (!/^\d+$/.test(raw)) {
+    return {
+      raw,
+      value: null,
+      isValid: false,
+      error: 'Допустимы только цифры'
+    };
+  }
+
+  const value = parseInt(raw, 10);
+  if (value < 0 || value > 100) {
+    return {
+      raw,
+      value,
+      isValid: false,
+      error: 'Число должно быть от 0 до 100'
+    };
+  }
+
+  return {
+    raw,
+    value,
+    isValid: true,
+    error: ''
+  };
 }
 
 // Прячет / показывает круг прогресса
 hideToggle.addEventListener('change', () => {
-  progressBar.classList.toggle('progress__bar--hidden', hideToggle.checked);
+  progressBlock.setHidden(hideToggle.checked);
 });
 
-// Чистит активные таймеры, чтобы не копились параллельные циклы
+// Чистит активные таймеры, чтобы не копились циклы
 function clearSpinAnimationTimers() {
   clearTimeout(spinCircleResetTimeout);
   clearTimeout(spinCircleLoopTimeout);
@@ -31,7 +63,7 @@ function clearSpinAnimationTimers() {
   spinCircleLoopTimeout = null;
 }
 
-// Полностью останавливает анимацию и возвращает указатель в ноль
+// Полностью останавливает анимацию и возвращает к нулю
 function stopSpinAnimation() {
   clearSpinAnimationTimers();
   spinCircle.style.opacity = '0';
@@ -39,14 +71,13 @@ function stopSpinAnimation() {
   spinCircleToValue(0);
 }
 
-// Запускает повторяющийся цикл: сброс → плавное вращение → повтор
 function startSpinAnimationLoop() {
   clearSpinAnimationTimers();
 
   const runCycle = () => {
-    const { correctValue, value } = getValueInput();
+    const { isValid, value } = getValueInput();
 
-    if (!(animateToggle.checked && correctValue)) {
+    if (!(animateToggle.checked && isValid)) {
       stopSpinAnimation();
       return;
     }
@@ -67,25 +98,25 @@ function startSpinAnimationLoop() {
 
 // слушатель Animate и запускает / останавливает вращение
 animateToggle.addEventListener('change', () => {
-  const { correctValue } = getValueInput();
-
-  if (animateToggle.checked && correctValue) {
-    progressCircle.style.transition = 'stroke-dashoffset 0.6s ease-in-out';
-    startSpinAnimationLoop();
-  } else {
-    progressCircle.style.transition = 'none';
-    stopSpinAnimation();
+  if (!animateToggle.checked) {
+    progressBlock.setAnimated(false);
+    return;
   }
+
+  const { isValid } = getValueInput();
+  if (!isValid) {
+    animateToggle.checked = false;
+    progressBlock.setAnimated(false);
+    return;
+  }
+
+  progressBlock.setAnimated(true);
 });
 
 
-
-spinCircle.style.animationPlayState = 'paused';
-spinCircle.style.opacity = '0';
-
 const CIRCLE_LENGTH = 2 * Math.PI * 60;
 
-// Переводит указатель на нужный угол в градусах
+// Переводит spin-circle на нужный угол в градусах
 function spinCircleToValue(value) {
   const degrees = value === 0 ? 0 : 360 * (value / 100) - 18;
   spinCircle.style.transform = `rotate(${degrees}deg)`;
@@ -93,35 +124,69 @@ function spinCircleToValue(value) {
 
 
 
-// Валидация поля + обновление круга и указателя
+
 input.addEventListener('input', () => {
-  const { raw } = getValueInput();
+  const state = getValueInput();
 
-  if (raw === '') {
-    input.title = 'Введите число от 0 до 100';
-    input.classList.remove('invalid');
-    progressCircle.style.strokeDashoffset = CIRCLE_LENGTH;
-    progressCircle.style.strokeDasharray = CIRCLE_LENGTH; 
+  if (!state.isValid) {
+    input.title = state.error;
+    if (state.reason === 'empty') {
+      input.classList.remove('invalid');
+      progressCircle.style.strokeDasharray = CIRCLE_LENGTH;
+      progressCircle.style.strokeDashoffset = CIRCLE_LENGTH;
+      spinCircleToValue(0);
+    } else {
+      input.classList.add('invalid');
+    }
+    animateToggle.checked = false;
+    progressBlock.setAnimated(false);
     return;
   }
 
-  if (!/^\d+$/.test(raw)) {
-    input.title = 'Допустимы только цифры';
-    input.classList.add('invalid');
-    return;
-  }
-
-  let value = parseInt(raw, 10);
-  if (value < 0 || value > 100) {
-    input.title = 'Число должно быть от 0 до 100';
-    input.classList.add('invalid');
-    return;
-  }
-
+  input.title = '';
   input.classList.remove('invalid');
 
   progressCircle.style.strokeDasharray = CIRCLE_LENGTH;
-  const offset = CIRCLE_LENGTH * (1 - value / 100);
+  const offset = CIRCLE_LENGTH * (1 - state.value / 100);
   progressCircle.style.strokeDashoffset = offset;
-  spinCircleToValue(value);
+  spinCircleToValue(state.value);
 });
+
+const progressBlock = {
+  setValue(value) {
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+  },
+  setHidden(isHidden) {
+    hideToggle.checked = isHidden;
+    progressBar.classList.toggle('progress__bar--hidden', isHidden);
+  },
+  setAnimated(shouldAnimate) {
+    if (shouldAnimate) {
+      const { isValid } = getValueInput();
+      if (!isValid) {
+        animateToggle.checked = false;
+        stopSpinAnimation();
+        return;
+      }
+    }
+
+    animateToggle.checked = shouldAnimate;
+    if (shouldAnimate) {
+      progressCircle.style.transition = 'stroke-dashoffset 0.6s ease-in-out';
+      startSpinAnimationLoop();
+    } else {
+      progressCircle.style.transition = 'none';
+      stopSpinAnimation();
+    }
+  },
+  getState() {
+    return {
+      value: parseInt(input.value, 10) || 0,
+      hidden: hideToggle.checked,
+      animated: animateToggle.checked,
+    };
+  }
+};
+
+window.progressBlock = progressBlock;
