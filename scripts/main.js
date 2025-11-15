@@ -1,4 +1,3 @@
-//Комментарии оставлены мной намеренно, это не ИИ код, надеюсь это хоть кто-то читает)
 //Отпишите пж, если проверите https://t.me/tumblr_19
 const hideToggle = document.getElementById('hide-toggle');
 const progressBar = document.querySelector('.progress__bar');
@@ -98,7 +97,7 @@ function startSpinAnimationLoop() {
   runCycle();
 }
 
-// слушатель Animate и запускает / останавливает вращение
+// слушатель запускает / останавливает вращение
 animateToggle.addEventListener('change', () => {
   if (!animateToggle.checked) {
     progressBlock.setAnimated(false);
@@ -118,7 +117,7 @@ animateToggle.addEventListener('change', () => {
 
 const CIRCLE_LENGTH = 2 * Math.PI * 60;
 
-// Переводит spin-circle на нужный угол в градусах
+// Переводит бегунок (spin-circle) на нужный угол в градусах
 function spinCircleToValue(value) {
   const degrees = value === 0 ? 0 : 360 * (value / 100) - 18;
   spinCircle.style.transform = `rotate(${degrees}deg)`;
@@ -153,7 +152,7 @@ input.addEventListener('input', () => {
   progressCircle.style.strokeDashoffset = offset;
   spinCircleToValue(state.value);
 });
-
+//API методы
 const progressBlock = {
   setValue(value) {
     input.value = value;
